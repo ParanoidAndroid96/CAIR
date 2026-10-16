@@ -1,0 +1,28 @@
+__pycache__/
+*.py[cod]
+*.so
+.pytest_cache/
+.venv/
+venv/
+env/
+build/
+dist/
+*.egg-info/
+
+# Experiment outputs
+runs/
+logs/
+checkpoints/
+tensorboard/
+wandb/
+*.log
+
+# Large benchmark/demo assets are obtained separately.
+data/fetch/*.npz
+data/adroit/*.hdf5
+data/adroit/*.h5
+data/adroit/*.pickle
+data/adroit/*.pkl
+data/adroit/*.zip
+
+.DS_Store

@@ -1,0 +1,276 @@
+# CAIR experiment configuration.
+# Method settings are shared unless explicitly overridden by a task/pairing.
+
+cair:
+  cagrad_c: 0.7
+  lambda_lr: 1.0e-4
+  beta: 0.9
+  mu_init: 1.0
+  mu_lr: 1.0
+  lambda_floor: 0.05
+  warmup_episodes: 40
+  cagrad_steps: 20
+  cagrad_lr: 2.0
+  cagrad_momentum: 0.5
+
+benchmark_defaults:
+  manipulation:
+    sync_interval: 10
+    seeds: 5
+  locomotion:
+    sync_interval: 5
+    seeds: 10
+
+pairings:
+  - bc+sac
+  - bc+ddpg
+  - bc+ppo
+  - dagger+sac
+  - dagger+ddpg
+  - dagger+ppo
+
+tasks:
+  fetch_pick_and_place:
+    benchmark: manipulation
+    paper_env_id: FetchPickAndPlace-v1
+    episode_length: 1000
+    train_steps: 10000000
+    demonstrations:
+      kind: fetch_rule_based
+      trajectories: 50
+      controller: pick_and_place
+    rl:
+      sac:
+        net_arch: [512, 512]
+        learning_rate: 3.0e-4
+        gamma: 0.98
+        batch_size: 128
+        ent_coef: auto
+        tau: 0.02
+      ddpg:
+        net_arch: [512, 512]
+        learning_rate: 3.0e-4
+        gamma: 0.98
+        batch_size: 128
+        action_noise_sigma: 0.15
+        tau: 0.02
+      ppo:
+        net_arch: [512, 512]
+        learning_rate: 3.0e-4
+        gamma: 0.98
+        gae_lambda: 0.95
+        rollout_steps: 1024
+        epochs: 30
+        ent_coef: 0.2
+
+  fetch_slide:
+    benchmark: manipulation
+    paper_env_id: FetchSlide-v1
+    episode_length: 1000
+    train_steps: 10000000
+    demonstrations:
+      kind: fetch_rule_based
+      trajectories: 50
+      controller: slide
+    rl:
+      sac:
+        net_arch: [512, 512]
+        learning_rate: 3.0e-4
+        gamma: 0.98
+        batch_size: 128
+        ent_coef: auto
+        tau: 0.02
+      ddpg:
+        net_arch: [512, 512]
+        learning_rate: 3.0e-4
+        gamma: 0.98
+        batch_size: 128
+        action_noise_sigma: 0.15
+        tau: 0.02
+      ppo:
+        net_arch: [512, 512]
+        learning_rate: 3.0e-4
+        gamma: 0.98
+        gae_lambda: 0.95
+        rollout_steps: 1024
+        epochs: 20
+        ent_coef: 0.02
+
+  fetch_push:
+    benchmark: manipulation
+    paper_env_id: FetchPush-v1
+    episode_length: 1000
+    train_steps: 10000000
+    demonstrations:
+      kind: fetch_rule_based
+      trajectories: 50
+      controller: push
+    rl:
+      sac:
+        net_arch: [512, 512]
+        learning_rate: 3.0e-5
+        gamma: 0.98
+        batch_size: 256
+        ent_coef: auto
+        tau: 0.02
+      ddpg:
+        net_arch: [512, 512]
+        learning_rate: 3.0e-5
+        gamma: 0.98
+        batch_size: 256
+        action_noise_sigma: 0.15
+        tau: 0.02
+      ppo:
+        net_arch: [512, 512]
+        learning_rate: 3.0e-4
+        gamma: 0.98
+        gae_lambda: 0.95
+        rollout_steps: 1024
+        epochs: 20
+        ent_coef: 0.02
+
+  adroit_hammer:
+    benchmark: manipulation
+    paper_env_id: AdroitHandHammerSparse-v1
+    episode_length: 4000
+    train_steps: 3000000
+    demonstrations:
+      kind: rajeswaran_benchmark
+      trajectories: 50
+      offline_filename: hammer-demos-v0-bc-combined.hdf5
+      interactive_filename: expert.zip
+    rl:
+      sac:
+        net_arch: [512, 512]
+        learning_rate: 3.0e-4
+        gamma: 0.98
+        batch_size: 256
+        ent_coef: auto
+        tau: 0.02
+      ddpg:
+        net_arch: [512, 512]
+        learning_rate: 3.0e-4
+        gamma: 0.98
+        batch_size: 128
+        action_noise_sigma: 0.10
+        tau: 0.02
+      ppo:
+        net_arch: [512, 512]
+        learning_rate: 3.0e-4
+        gamma: 0.98
+        gae_lambda: 0.95
+        rollout_steps: 1024
+        epochs: 20
+        ent_coef: 0.02
+
+  adroit_pen:
+    benchmark: manipulation
+    paper_env_id: AdroitHandPenSparse-v1
+    episode_length: 4000
+    train_steps: 8000000
+    demonstrations:
+      kind: rajeswaran_benchmark
+      trajectories: 50
+      offline_filename: pen-v0_demos.pickle
+      interactive_filename: pen-v0.pickle
+    rl:
+      sac:
+        net_arch: [512, 512]
+        learning_rate: 3.0e-4
+        gamma: 0.98
+        batch_size: 256
+        ent_coef: auto
+        tau: 0.02
+      ddpg:
+        net_arch: [512, 512]
+        learning_rate: 3.0e-4
+        gamma: 0.98
+        batch_size: 128
+        action_noise_sigma: 0.10
+        tau: 0.02
+      ppo:
+        net_arch: [512, 512]
+        learning_rate: 3.0e-4
+        gamma: 0.98
+        gae_lambda: 0.95
+        rollout_steps: 1024
+        epochs: 20
+        ent_coef: 0.02
+
+  halfcheetah:
+    benchmark: locomotion
+    paper_env_id: HalfCheetah-v5
+    episode_length: 1000
+    train_steps: 250000
+    demonstrations:
+      kind: minari
+      dataset_id: mujoco/halfcheetah/simple-v0
+    rl:
+      sac: {net_arch: [256, 256], learning_rate: 3.0e-4, gamma: 0.99, batch_size: 256, tau: 0.005, ent_coef: auto}
+      ddpg: {net_arch: [256, 256], learning_rate: 1.0e-3, gamma: 0.99, batch_size: 256, tau: 0.005, action_noise_sigma: 0.10}
+      ppo: {net_arch: [256, 256], learning_rate: 2.06e-5, gamma: 0.98, gae_lambda: 0.92, rollout_steps: 512, epochs: 20, ent_coef: 0.000401, clip_range: 0.1}
+
+  hopper:
+    benchmark: locomotion
+    paper_env_id: Hopper-v5
+    episode_length: 1000
+    train_steps: 250000
+    demonstrations:
+      kind: minari
+      dataset_id: mujoco/hopper/simple-v0
+    rl:
+      sac: {net_arch: [256, 256], learning_rate: 3.0e-4, gamma: 0.99, batch_size: 256, tau: 0.005, ent_coef: auto}
+      ddpg: {net_arch: [256, 256], learning_rate: 1.0e-3, gamma: 0.99, batch_size: 256, tau: 0.005, action_noise_sigma: 0.10}
+      ppo: {net_arch: [256, 256], learning_rate: 9.808e-5, gamma: 0.999, gae_lambda: 0.99, rollout_steps: 512, epochs: 5, ent_coef: 0.002295, clip_range: 0.2}
+
+  walker2d:
+    benchmark: locomotion
+    paper_env_id: Walker2d-v5
+    episode_length: 1000
+    train_steps: 250000
+    demonstrations:
+      kind: minari
+      dataset_id: mujoco/walker2d/simple-v0
+    rl:
+      sac: {net_arch: [256, 256], learning_rate: 3.0e-4, gamma: 0.99, batch_size: 256, tau: 0.005, ent_coef: auto}
+      ddpg: {net_arch: [256, 256], learning_rate: 1.0e-3, gamma: 0.99, batch_size: 256, tau: 0.005, action_noise_sigma: 0.10}
+      ppo: {net_arch: [256, 256], learning_rate: 5.05e-5, gamma: 0.99, gae_lambda: 0.95, rollout_steps: 512, epochs: 20, ent_coef: 0.000585, clip_range: 0.1}
+
+  ant:
+    benchmark: locomotion
+    paper_env_id: Ant-v5
+    episode_length: 1000
+    train_steps: 250000
+    demonstrations:
+      kind: minari
+      dataset_id: mujoco/ant/simple-v0
+    rl:
+      sac: {net_arch: [256, 256], learning_rate: 3.0e-4, gamma: 0.99, batch_size: 256, tau: 0.005, ent_coef: auto}
+      ddpg: {net_arch: [256, 256], learning_rate: 1.0e-3, gamma: 0.99, batch_size: 256, tau: 0.005, action_noise_sigma: 0.10}
+      ppo: {net_arch: [256, 256], learning_rate: 3.0e-4, gamma: 0.99, gae_lambda: 0.95, rollout_steps: 2048, epochs: 10, ent_coef: 0.0, clip_range: 0.2}
+
+  swimmer:
+    benchmark: locomotion
+    paper_env_id: Swimmer-v5
+    episode_length: 1000
+    train_steps: 250000
+    demonstrations:
+      kind: minari
+      dataset_id: mujoco/swimmer/medium-v0
+    rl:
+      sac: {net_arch: [256, 256], learning_rate: 3.0e-4, gamma: 0.999, batch_size: 256, tau: 0.005, ent_coef: auto}
+      ddpg: {net_arch: [256, 256], learning_rate: 1.0e-3, gamma: 0.9999, batch_size: 256, tau: 0.005, action_noise_sigma: 0.10}
+      ppo: {net_arch: [256, 256], learning_rate: 3.0e-4, gamma: 0.9999, gae_lambda: 0.98, rollout_steps: 1024, epochs: 10, ent_coef: 0.0, clip_range: 0.2}
+
+  humanoid:
+    benchmark: locomotion
+    paper_env_id: Humanoid-v5
+    episode_length: 1000
+    train_steps: 250000
+    demonstrations:
+      kind: minari
+      dataset_id: mujoco/humanoid/simple-v0
+    rl:
+      sac: {net_arch: [256, 256], learning_rate: 3.0e-4, gamma: 0.99, batch_size: 256, tau: 0.005, ent_coef: auto}
+      ddpg: {net_arch: [256, 256], learning_rate: 1.0e-3, gamma: 0.99, batch_size: 256, tau: 0.005, action_noise_sigma: 0.10}
+      ppo: {net_arch: [256, 256], learning_rate: 3.569e-5, gamma: 0.95, gae_lambda: 0.9, rollout_steps: 512, epochs: 5, ent_coef: 0.00238, clip_range: 0.3}

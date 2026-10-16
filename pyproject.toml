@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cair-ilrl"
+version = "0.1.0"
+description = "Conflict-Averse IL-RL (CAIR): adaptive IL-to-RL annealing with conflict-averse gradient updates."
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [
+  {name = "Vaibhav Bajaj"},
+  {name = "Bo Liu"},
+  {name = "Peter Stone"},
+  {name = "Guni Sharon"},
+]
+dependencies = [
+  "torch>=2.1",
+  "numpy>=1.24",
+  "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+data = ["minari==0.5.3", "h5py==3.11.0"]
+sb3 = ["stable-baselines3==2.4.1", "sb3-contrib==2.4.0"]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"cair.resources" = ["*.yaml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
