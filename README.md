@@ -156,3 +156,10 @@ data/               local benchmark resources (not committed)
 ## Citation
 
 Citation metadata is provided in `CITATION.cff`.
+
+## Qualitative Example
+
+<p align="center">
+  <img src="assets/CAIR_Pen_Comparison.gif" alt="Pen-v0 qualitative comparison: demonstrator, RLPD, and CAIR" width="100%">
+</p>
+
